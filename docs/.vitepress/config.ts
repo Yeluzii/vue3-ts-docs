@@ -14,7 +14,9 @@ export default defineConfig({
       { text: "API 参考", link: "/api/" },
       { text: "疑难解答", link: "/questions/" },
     ],
-    socialLinks: [{ icon: "github", link: "" }],
+    socialLinks: [
+      { icon: "github", link: "https://github.com/Yeluzii/vue3-ts-docs.git" },
+    ],
     sidebar: {
       "/guide/": [
         {
