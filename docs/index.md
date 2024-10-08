@@ -7,7 +7,7 @@ hero:
   text: "Vue 3 + TypeScript 学习文档"
   tagline: "为中华之崛起而读书！"
   image:
-    src: assets/logo.png
+    src: https://yeluzi08-bucket.oss-cn-nanjing.aliyuncs.com/img/logo.png
     alt: Vue
   actions:
     - theme: brand
