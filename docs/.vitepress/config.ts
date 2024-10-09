@@ -24,7 +24,7 @@ export default defineConfig({
           collapsible: true,
           items: [
             { text: "介绍", link: "/guide/" },
-            { text: "安装", link: "/guide/installation" },
+            { text: "快速安装", link: "/guide/installation" },
             { text: "基本概念", link: "/guide/concepts" },
           ],
         },
@@ -37,6 +37,17 @@ export default defineConfig({
             { text: "介绍", link: "/components/" },
             { text: "按钮 Button", link: "/components/button" },
             { text: "表单 Form", link: "/components/table" },
+          ],
+        },
+      ],
+      "/api/": [
+        {
+          text: "api学习",
+          collapsible: true,
+          items: [
+            { text: "介绍", link: "/components/" },
+            { text: "组合式函数 Composable", link: "/components/composable" },
+            { text: "VueUse", link: "/components/vueuse" },
           ],
         },
       ],
