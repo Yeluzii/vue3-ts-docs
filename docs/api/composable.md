@@ -116,3 +116,222 @@ const myData = useLocationStorage("username", "张三");
 效果图：
 
 <img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091218139.png" alt="image-20241009121853075" style="border-radius:10px;" />
+
+#### 2.3封装倒计时计时器逻辑
+
+/composables/useCountdown.ts
+
+```ts
+import { ref } from "vue";
+
+export function useCountdown(initValue = 60) {
+  const seconds = ref<number>(initValue);
+  let timerId: ReturnType<typeof setInterval> | null = null;
+
+  const startCountdown = () => {
+    if (seconds.value <= 0) return;
+    // 清除之前可能存在的计时器
+    stopCountdown();
+    timerId = setInterval(() => {
+      seconds.value--;
+      // 当秒数为0时，自动停止
+      if (seconds.value <= 0) {
+        stopCountdown();
+      }
+    }, 1000);
+  };
+
+  const stopCountdown = () => {
+    if (timerId !== null) {
+      clearInterval(timerId);
+      timerId = null;
+    }
+  };
+
+  const resetCountdown = () => {
+    stopCountdown(); // 停止现有计时器
+    seconds.value = initValue;
+  };
+
+  return { seconds, startCountdown, stopCountdown, resetCountdown };
+}
+```
+
+/components/Countdown.vue
+
+```vue
+<template>
+  <div>
+    <p>倒计时：{{ seconds }}</p>
+    <button @click="startCountdown">开始</button>
+    <button @click="stopCountdown">暂停</button>
+    <button @click="resetCountdown">重置</button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useCountdown } from "../composables/useCountdown";
+
+const { seconds, startCountdown, stopCountdown, resetCountdown } =
+  useCountdown(60);
+</script>
+
+<style scoped></style>
+```
+
+效果图：<img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091632529.gif" alt="倒计时计时器" style="border-radius:10px;" />
+
+#### 2.4封装模拟手机短信发送逻辑
+
+/composables/useMessageSender
+
+```ts
+import { ref, watch } from "vue";
+
+export function useMessageSender() {
+  const phoneNumber = ref<string>("");
+  const sending = ref(false);
+  const sended = ref(false);
+  const error = ref<string | null>(null);
+  const sendMessage = async (phoneNumber: string) => {
+    if (!phoneNumber) {
+      error.value = "请输入手机号";
+      return;
+    }
+    sending.value = true;
+    await new Promise((resolve) => setTimeout(resolve, 2000));
+    sending.value = false;
+    sended.value = true;
+  };
+  watch(phoneNumber, () => {
+    error.value = null;
+  });
+  return {
+    phoneNumber,
+    sending,
+    sended,
+    error,
+    sendMessage,
+  };
+}
+```
+
+/components/MessageSender.vue
+
+```vue
+<template>
+  <div>
+    <input type="text" v-model="phoneNumber" placeholder="请输入手机号" />
+    <p>{{ error }}</p>
+    <button @click="sendMessage(phoneNumber)">发送</button>
+    <p v-if="sending">发送中...</p>
+    <p v-if="sended">已发送至{{ phoneNumber }}</p>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { ref } from "vue";
+import { useMessageSender } from "../composables/useMessageSender";
+
+const phoneNumber = ref<string>("");
+
+const { sending, sended, error, sendMessage } = useMessageSender();
+</script>
+
+<style scoped></style>
+```
+
+效果图：
+
+<img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091638907.gif" alt="手机短信发送模拟" style="border-radius:10px;" />
+
+#### 2.5封装表单验证组合式函数
+
+/composables/useFormValidation.ts
+
+```ts
+import { ref } from "vue";
+
+export function useFormValidation() {
+  const phone = ref<number>();
+  const email = ref<string>();
+  const password = ref<string>();
+  const errors = ref<string[]>([]);
+  const error = ref<boolean>(false);
+
+  const validateForm = () => {
+    errors.value = [];
+    error.value = false;
+
+    if (!phone.value) {
+      errors.value.push("手机号不能为空！！！");
+      error.value = true;
+    }
+
+    if (phone.value) {
+      if (phone.value.toString().length !== 11) {
+        errors.value.push("请输入11位的手机号");
+        error.value = true;
+      }
+    }
+
+    if (!email.value || !validateEmail(email.value)) {
+      errors.value.push("请输入正确的邮箱");
+      error.value = true;
+    }
+
+    if (!password.value || password.value.length < 8) {
+      errors.value.push("密码至少8位");
+      error.value = true;
+    }
+  };
+
+  const validateEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return emailRegex.test(email);
+  };
+
+  return {
+    phone,
+    email,
+    password,
+    errors,
+    error,
+    validateForm,
+  };
+}
+```
+
+/components/FormValidation.vue
+
+```vue
+<template>
+  <div>
+    <label>手机号:</label>
+    <input type="text" v-model="phone" />
+  </div>
+  <div>
+    <label>邮箱:</label>
+    <input type="text" v-model="email" />
+  </div>
+  <div>
+    <label>密码:</label>
+    <input type="password" v-model="password" />
+    <p v-if="error">{{ errors }}</p>
+  </div>
+  <button @click="validateForm">提交</button>
+</template>
+
+<script setup lang="ts">
+import { useFormValidation } from "../composables/useFormValidation";
+
+const { phone, email, password, error, errors, validateForm } =
+  useFormValidation();
+</script>
+
+<style scoped></style>
+```
+
+效果图：
+
+<img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091640476.gif" alt="表单验证" style="border-radius:10px;" />
