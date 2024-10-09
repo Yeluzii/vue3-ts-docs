@@ -10,7 +10,7 @@ export default defineConfig({
     nav: [
       { text: "首页", link: "/" },
       { text: "指南", link: "/guide/" },
-      { text: "Vue 3 基础", link: "/base/" },
+      { text: "Vue 3 基础", link: "/vue3-base/" },
       { text: "组件", link: "/components/" },
       { text: "API 参考", link: "/api/" },
       { text: "疑难解答", link: "/questions/" },
