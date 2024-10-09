@@ -8,6 +8,111 @@ Vue 3 引入了一种新的 API 风格，称为组合式 API（Composition API�
 
 ### 2.自定义组合函数
 
-#### 2.1起步操作：创建项目
+起步操作：创建项目
 
-![](https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091055835.png)
+<img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091055835.png" style="border-radius:10px;" />
+
+#### 2.1计数器组合函数
+
+src 下新建 composables 子目录，新建 useCounter.ts
+
+```ts
+import { ref } from "vue";
+
+export function useCounter(initValue = 0) {
+  const count = ref<number>(initValue);
+
+  const increament = () => {
+    count.value++;
+  };
+
+  const decreament = () => {
+    count.value--;
+  };
+
+  const reset = () => {
+    count.value = 0;
+  };
+
+  return {
+    count,
+    increament,
+    decreament,
+    reset,
+  };
+}
+```
+
+components/Counter.vue 中使用自定义计数器的组件:
+
+```vue
+<template>
+  <div>
+    <p>当前计数的值：{{ count }}</p>
+    <button @click="increament">增加</button>
+    <button @click="decreament">减少</button>
+    <button @click="reset">清空</button>
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useCounter } from "../composables/useCounter";
+
+const { count, increament, decreament, reset } = useCounter(10);
+</script>
+
+<style scoped></style>
+```
+
+注意记得在 App.vue 中引入 Counter.vue 组件
+
+```vue
+<script setup lang="ts">
+import Counter from "./components/Counter.vue";
+</script>
+
+<template>
+  <Counter />
+</template>
+```
+
+效果图：
+
+<img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091209396.png" alt="image-20241009120930339" style="zoom:80%;border-radius:10px;" />
+
+#### 2.2本地存储管理组合函数
+
+/composables/useLocalStorage.ts
+
+```ts
+import { ref, watch } from "vue";
+
+export function useLocalStorage(key: string, defaultValue: string) {
+  const storedValue = localStorage.getItem(key) || defaultValue;
+  const data = ref<string>(storedValue);
+  watch(data, (newValue) => {
+    localStorage.setItem(key, newValue);
+  });
+  return data;
+}
+```
+
+/components/LocalStorage.vue
+
+```vue
+<template>
+  <div>
+    <p>本地存储的值: {{ myData }}</p>
+    <input type="text" v-model="myData" placeholder="更多本地存储的值" />
+  </div>
+</template>
+
+<script setup lang="ts">
+import { useLocationStorage } from "../composables/useLocalStorage";
+const myData = useLocationStorage("username", "张三");
+</script>
+```
+
+效果图：
+
+<img src="https://yeluzi-pic-go.oss-cn-hangzhou.aliyuncs.com/md/202410091218139.png" alt="image-20241009121853075" style="border-radius:10px;" />
