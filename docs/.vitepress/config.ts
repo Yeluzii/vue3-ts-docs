@@ -45,9 +45,9 @@ export default defineConfig({
           text: "api学习",
           collapsible: true,
           items: [
-            { text: "介绍", link: "/components/" },
-            { text: "组合式函数 Composable", link: "/components/composable" },
-            { text: "VueUse", link: "/components/vueuse" },
+            { text: "介绍", link: "/api/" },
+            { text: "组合式函数 Composable", link: "/api/composable" },
+            { text: "VueUse", link: "/api/vueuse" },
           ],
         },
       ],
