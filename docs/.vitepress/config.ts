@@ -25,6 +25,7 @@ export default defineConfig({
           collapsible: true,
           items: [
             { text: "介绍", link: "/guide/" },
+            { text: "环境准备", link: "/guide/environment" },
             { text: "快速安装", link: "/guide/installation" },
             { text: "基本概念", link: "/guide/concepts" },
           ],
