@@ -13,6 +13,7 @@ export default defineConfig({
       { text: "Vue 3 基础", link: "/vue3-base/" },
       { text: "组件", link: "/components/" },
       { text: "API 参考", link: "/api/" },
+      { text: "项目实践", link: "/projects/" },
       { text: "疑难解答", link: "/questions/" },
     ],
     socialLinks: [
@@ -50,6 +51,16 @@ export default defineConfig({
             { text: "介绍", link: "/api/" },
             { text: "组合式函数 Composable", link: "/api/composable" },
             { text: "VueUse", link: "/api/vueuse" },
+          ],
+        },
+      ],
+      "/projects/": [
+        {
+          text: "项目实践",
+          collapsible: true,
+          items: [
+            { text: "介绍", link: "/projects/" },
+            { text: "Vue 3 外卖前端项目", link: "/projects/composable" },
           ],
         },
       ],
