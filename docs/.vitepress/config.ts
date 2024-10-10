@@ -60,7 +60,7 @@ export default defineConfig({
           collapsible: true,
           items: [
             { text: "介绍", link: "/projects/" },
-            { text: "Vue 3 外卖前端项目", link: "/projects/composable" },
+            { text: "Vue 3 外卖前端项目", link: "/projects/vue3-waimai" },
           ],
         },
       ],
