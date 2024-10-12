@@ -26,7 +26,7 @@ features:
     details: 涵盖从组件设计到代码优化的实际开发经验。
   - icon: ✨
     title: 高效开发
-    details: 通过 VitePress 和 TypeScript，快速搭建搞笑，可维护的 Vue 3 应用。
+    details: 通过 VitePress 和 TypeScript，快速搭建高效，可维护的 Vue 3 应用。
 ---
 
 <div style="text-align: center;margin-top:50px;">
